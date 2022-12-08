@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Save Our Future - Emissions</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+
+  <!-------------------------TOP BANNER FOR THE PAGE----------------------------------------->
+	
+	<div class="title">
+		<div class="row">
+			<div class="col-md-1">
+				<div class="iconDiv">
+					<button onclick="window.location.href='index.html';" class="iconBtn" title="Home"><img class="icons" src="homeIcon.png"></button>
+				</div>
+			</div>
+			<div class="col-md-7">
+				<div class="text">
+					Save Our Future!!<a style="font-size: 40px; text-shadow: 1.5px 2px #ff007f"> - Emissions</a>
+				</div>
+			</div>
+			<div class="col-md-2"></div>
+			<div class="col-md-1">
+				<img src="13Change.png" class="logo" title="Climate Change Logo">
+			</div>
+			<div class="col-md-1"></div>
+		</div>
+	</div>
+
+  <!------------------------------------Navigation------------------------------------------->
+  	<br>
+  	<br>
+  	<br>
+  	<br>
+  	<div class="row">
+  		<div class="col-md-1"></div>
+  		<div class="col-md-2">
+  			<button onclick="window.location.href='Deforestation.html';" class="nav">
+  				<div class="nav">
+  					<img src="leftArrow.png" class="arrowIcon"><p class="navText">Deforestation</p>
+  				</div>
+  			</button>
+  		</div>
+  		<div class="col-md-6"></div>
+  		<div class="col-md-2">
+  			<button onclick="window.location.href='IceSheets.html';" class="nav">
+  				<div class="nav">
+  					<p class="navText">Ice-Sheets</p><img src="rightArrow.png" class="arrowIcon">
+  				</div>
+  			</button>
+  		</div>
+  		<div class="col-md-1"></div>
+  	</div>
+  	<br>
+ 	<br>
+
+  <!--------------------------MAIN BODY OF CONTENT, IMAGES AND BUTTONS----------------------->
+
+ 	<div class="row">
+ 		<div class="col-md-1"></div>
+ 		<div class="col-md-10">
+ 			<p class="paragraph">We all live on this planet called, <a style="color: #00ffff;">Earth</a>. Earth is a very special place. It is home to many different types of animals, mammals and plants, including us humans! It is many, many years old and has given us life for so long. Sadly, there is a big problem facing the Earth and it needs all our help. That problem is <a style="color: #00ffff;">Climate Change</a>! Climate Change is the rise in temperature of the Earth. Basically, our Earth is getting hotter and hotter and this is causing its climate to change! That is why we call it ‘Climate Change’.
+ 			</p> 
+ 			<br>
+			<p class="paragraph">One of the reasons why the temperature is rising is because we burn too many <a style="color: #00ffff;">fossil fuels</a>. The main fossil fuels are oil, gas and coal. Many of us burn these fuels in our homes every day in order to cook food and heat our houses. The problem with these fuels is when we burn them, they release a gas called <a style="color: #00ffff;">Carbon Dioxide</a>. Carbon Dioxide damages our environment causing the rise in temperature. Other harmful gases, <a style="color: #00ffff;">Methane</a> and <a style="color: #00ffff;">Nitrous Oxide</a>, are also released into the air. These gases are called the <a style="color: #00ffff;">Greenhouse Gases</a>.
+			</p> 
+			<br>
+			<p class="paragraph">	
+ 				<a style="color: #00ffff">We all can help to stop this rise!</a>
+ 			</p>
+ 		</div>
+ 		<div class="col-md-1"></div>
+ 	</div>
+ 	<br>
+	<br>
+	<br>
+	<br>
+ 	<div class="row">
+ 		<div class="col-md-1"></div>
+ 		<div class="col-md-10">
+ 			<div class="graph" id="emissionsGraph"></div>
+ 		</div>
+ 		<div class="col-md-1"></div>
+ 	</div>
+ 	<br>
+ 	<br>
+ 	<br>
+ 	<br>
+ 	<div class="row">
+ 		<div class="col-md-1"></div>
+ 		<div class="col-md-10">
+ 			<h1>About the Graph:</h1>
+ 			<p class="paragraph">
+ 				The graph above, which you can interact with, shows us the scary rise in our greenhouse emissions since 1970. From the graph we learn that the average increase every year is <a id="averageRateOfChange" style="color: #00ffff;"></a> <a style="color: #00ffff;">KiloTonnes</a>. It shows us that carbon dioxide is the biggest contributor to our emissions and therefore Climate Change. The biggest increase in emissions over a period of one year was <a id="greatestChange" style="color: #00ffff;"></a> <a style="color: #00ffff;">KiloTonnes</a>. Even though this data is scary, we have time to <a style="color: #00ffff;">save our future</a>.
+ 			</p>
+ 		</div>
+ 		<div class="col-md-1"></div>
+ 	</div>
+ 	<br>
+ 	<br>
+ 	<br>
+ 	<br>
+ 	<div class="row">
+ 		<div class="col-md-6"></div>
+ 		<div class="col-md-5">
+ 			<div class="frFact">
+ 				<img src="frighteningFactEm.png" class="frFactImgStyle" title="Frightening Fact">
+ 			</div>
+ 		</div>
+ 		<div class="col-md-1"></div>
+ 		</div>
+ 	</div>
+ 	<br>
+ 	<br>
+</body>
+</html>
+
+<!----------------------Script to change the background colour------------------------------->
+
+<script type="text/javascript">
+	var backColor=localStorage.backgroundColor;
+	var textColor=localStorage.color;
+
+	if(backColor){
+		document.body.style.backgroundColor=backColor;
+	};
+
+	if(textColor){
+		document.body.style.color=textColor;
+	};
+</script>
+
+<!-----------------Connection to firebase and to plotly-------------------------------------->
+
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/7.8.1/firebase.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/7.8.1/firebase-analytics.js"></script>
+
+<script>
+  
+  var firebaseConfig = {
+    apiKey: "AIzaSyCjcGYzLeGeiHABRhrr9JTNzZUiPoQW9Bk",
+    authDomain: "lccsproject-climate-change.firebaseapp.com",
+    databaseURL: "https://lccsproject-climate-change.firebaseio.com",
+    projectId: "lccsproject-climate-change",
+    storageBucket: "lccsproject-climate-change.appspot.com",
+    messagingSenderId: "1057025490978",
+    appId: "1:1057025490978:web:cb8f4b6b55c9ce466c8a7b",
+    measurementId: "G-FE4P99JXPJ"
+  };
+  
+  firebase.initializeApp(firebaseConfig);
+  firebase.analytics();
+</script>
+
+<!--------------Function to Graph the relevant Data from Firebase---------------------------->
+
+<script type="text/javascript">
+	var co2List=[];
+	var ch4List=[];
+	var n2oList=[];
+	var years=[];
+	var emissionsList=[];
+
+	var dataTable=firebase.database().ref("/EmissionsData/");
+	dataTable.on("child_added", function(data, prevChildKey){
+		var co2DataPoint=data.val();
+		co2List.push(parseFloat(co2DataPoint.CO2));
+
+		var ch4DataPoint=data.val();
+		ch4List.push(parseFloat(ch4DataPoint.CH4));
+
+		var n2oDataPoint=data.val();
+		n2oList.push(parseFloat(n2oDataPoint.N2O));
+
+		var yearsDataPoint=data.val();
+		years.push(parseInt(yearsDataPoint.Year));
+
+		var emissionsDataPoint=data.val();
+		emissionsList.push(parseFloat((emissionsDataPoint.CO2)+(emissionsDataPoint.CH4)+(emissionsDataPoint.N2O)));
+		graphData();
+	});
+
+	function graphData(){
+		var emissionsValues={
+			y : emissionsList,
+			x : years,
+			name : "All Greenhouse Gas Emissions",
+			mode : "lines+markers",
+			line :{
+				color :"#00b51a"
+			}
+		}
+
+		var CO2values={
+			y : co2List,
+			x : years,
+			name : "CO2 (Carbon Dioxide)",
+			mode : "lines+markers",
+			line :{
+				dash : "dot",
+				width : 2,
+				color : "#ff007f"
+			}
+		}
+
+		var CH4values={
+			y : ch4List,
+			x : years,
+			name : "CH4 (Methane)",
+			mode : "lines+markers",
+			line :{
+				dash : "dot",
+				width : 2,
+				color : "#040404"
+			}
+		}
+
+		var N2Ovalues={
+			y : n2oList,
+			x : years,
+			name : "N2O (Nitrous Oxide)",
+			mode : "lines+markers",
+			line :{
+				dash : "dot",
+				width : 2,
+				color : "#00ffff"
+			}
+		}
+
+		var layout={
+			title : "Increase in World Emissions:",
+			xaxis : {title: "Year"},
+			yaxis : {title: "Emission Values (Kilotonnes)"}
+		}
+
+		var data=[emissionsValues, CO2values, CH4values, N2Ovalues];
+		Plotly.newPlot("emissionsGraph", data, layout);
+	}
+
+	var analysis=firebase.database().ref("/AnalysisOfGraph/");
+	analysis.on("child_added", function(data, prevChildKey){
+		var dataPoint=data.val();
+		var averageRateOfChange=parseFloat(dataPoint.AverageEmissionsChange);
+		document.getElementById("averageRateOfChange").innerHTML=averageRateOfChange;
+
+		var greatestChange=parseFloat(dataPoint.MaxEmissionsValue);
+		document.getElementById("greatestChange").innerHTML=greatestChange;
+	});
+</script>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Save Our Future</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+
+  <!-------------------------TOP BANNER FOR THE PAGE----------------------------------------->
+	
+	<div class="title">
+		<div class="row">
+			<div class="col-md-1">
+				<div class="iconDiv">
+					<button onclick="window.location.href='Settings.html';" class="iconBtn" title="Settings"><img class="icons" src="SettingsIcon.png"></button>
+				</div>
+			</div>
+			<div class="col-md-7">
+				<div class="text">
+					Save Our Future!!
+				</div>
+			</div>
+			<div class="col-md-2"></div>
+			<div class="col-md-1">
+				<img src="13Change.png" class="logo" title="Climate Change Logo">
+			</div>
+			<div class="col-md-1"></div>
+		</div>
+	</div>
+
+  <!--------------------------MAIN BODY OF CONTENT, IMAGES AND BUTTONS----------------------->
+ 	
+ 	<br>
+ 	<br>
+ 	<br>
+ 	<br>
+ 	<div class="row">
+ 		<div class="col-md-1"></div>
+ 		<div class="col-md-10">
+ 			<p class="highlight">Welcome to the hompe page of 'Save Our Future'.</p>
+
+ 			<p class="intro">This is an informative website focused on educating primary school children between the ages of 7 and 13. It gives a basic overview of Climate Change, the causes and the consequences.</p>
+ 			<p class="highlight">How to navigate the website:</p>
+ 			<p class="intro"><a style="color: #ff007f;">1.</a> On the top left of each page is a Home button, which takes you back to this page.</p>
+ 			<p class="intro"><a style="color: #ff007f;">2.</a> On this page that button is a Settings button, this takes you to a settings page where you can change the background colour of this website.</p>
+ 			<p class="intro"><a style="color: #ff007f;">3.</a> To navigate to the educational pages click on its corresponding image below.</p>
+ 			<p class="intro"><a style="color: #ff007f;">4.</a> On the four educational pages you can navigate, using the buttons at the top of the screen, to the previous or next page.</p>
+ 			<p class="intro"><a style="color: #ff007f;">5.</a> Finally, don't forget to take 'The QUIZ'. The link to it is at the bottom of this page or you can click <a href="Quiz.html" style="color: #ff007f; text-decoration: underline;">here</a>. The questions are based upon information found on the educational pages.</p>
+			
+			<p class="highlight">Things to Know:</p>
+			<p class="intro"><a style="color: #ff007f">1. </a>Each educational page has <a style="color: #00ffff">key words</a>, highlighted in <a style="color: #00ffff">this colour</a>!</p>
+			<p class="intro"><a style="color: #ff007f">2. </a>There are interactive graphs on each educational page which you can click on to see the data in different ways.</p>
+			<p class="intro"><a style="color: #ff007f">3. </a>At the bottom of each eduducational page there is a <a style="color: #00ffff">frightening fact</a>. These facts are the questions on the Quiz at the end! Other than that <a style="color: #ff007f">Enjoy</a>!!</p>
+		</div>
+ 		<div class="col-md-1"></div>
+	</div>
+	<br>
+	<br>
+	<br>
+	<br>
+	<div class="mainbody">
+		<div class="row">
+			<div class="col-md-1"></div>
+			<div class="col-md-10">
+				<div class="data">
+					<button onclick="window.location.href='Emissions.html';"><img src="emissionswt.png" class="backgroundImage"></button>
+				</div>
+			</div>
+			<div class="col-md-1"></div>
+		</div>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<div class="row">
+			<div class="col-md-1"></div>
+			<div class="col-md-10">
+				<div class="data">
+					<button onclick="window.location.href='IceSheets.html';"><img src="ice-sheetswt.png" class="backgroundImage"></button>	
+				</div>
+			</div>
+			<div class="col-md-1"></div>
+		</div>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<div class="row">
+			<div class="col-md-1"></div>
+			<div class="col-md-10">
+				<div class="data">
+					<button onclick="window.location.href='SeaLevels.html';"><img src="sea-levelswt.png" class="backgroundImage"></button>
+				</div>
+			</div>
+			<div class="col-md-1"></div>
+		</div>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<div class="row">
+			<div class="col-md-1"></div>
+			<div class="col-md-10">
+				<div class="data">
+					<button onclick="window.location.href='Deforestation.html';"><img src="Deforestationwt.png" class="backgroundImage"></button>
+				</div>
+			</div>
+			<div class="col-md-1"></div>
+		</div>
+	</div>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<div class="row">
+		<div class="col-md-1"></div>
+		<div class="col-md-5">
+			<div class="quiz">
+				<button onclick="window.location.href='Quiz.html';"><img src="Quiz.png" class="quizImgStyle"></button>
+			</div>
+		</div>
+		<div class="col-md-6"></div>
+	</div>
+	<br>
+	<br>
+</body>
+</html>
+
+<!-----------------------Script to change the background colour------------------------------>
+
+<script type="text/javascript">
+	var backColor=localStorage.backgroundColor; //Checking the local storage for background colour and font colour.
+	var textColor=localStorage.color;
+
+	if(backColor){
+		document.body.style.backgroundColor=backColor; //Setting the pages background and font colour to what is in the local storage.
+	};
+
+	if(textColor){
+		document.body.style.color=textColor;
+	};
+</script>

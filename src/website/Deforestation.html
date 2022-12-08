@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Save Our Future - Deforestation</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+
+  <!-------------------------TOP BANNER FOR THE PAGE----------------------------------------->
+	
+	<div class="title">
+		<div class="row">
+			<div class="col-md-1">
+				<div class="iconDiv">
+					<button onclick="window.location.href='index.html';" class="iconBtn" title="Home"><img class="icons" src="homeIcon.png"></button>
+				</div>
+			</div>
+			<div class="col-md-7">
+				<div class="text">
+					Save Our Future!!<a style="font-size: 40px; text-shadow: 1.5px 2px #ff007f"> - Deforestation</a>
+				</div>
+			</div>
+			<div class="col-md-2"></div>
+			<div class="col-md-1">
+				<img src="13Change.png" class="logo" title="Climate Change Logo">
+			</div>
+			<div class="col-md-1"></div>
+		</div>
+	</div>
+
+  <!------------------------------------Navigation------------------------------------------->
+  	<br>
+  	<br>
+  	<br>
+  	<br>
+  	<div class="row">
+  		<div class="col-md-1"></div>
+  		<div class="col-md-2">
+  			<button onclick="window.location.href='SeaLevels.html';" class="nav">
+  				<div class="nav">
+  					<img src="leftArrow.png" class="arrowIcon"><p class="navText">Sea-Levels</p>
+  				</div>
+  			</button>
+  		</div>
+  		<div class="col-md-6"></div>
+  		<div class="col-md-2">
+  			<button onclick="window.location.href='Emissions.html';" class="nav">
+  				<div class="nav">
+  					<p class="navText">Emissions</p><img src="rightArrow.png" class="arrowIcon">
+  				</div>
+  			</button>
+  		</div>
+  		<div class="col-md-1"></div>
+  	</div>
+  	<br>
+ 	<br>
+
+  <!--------------------------MAIN BODY OF CONTENT, IMAGES AND BUTTONS----------------------->
+
+ 	<div class="row">
+ 		<div class="col-md-1"></div>
+ 		<div class="col-md-10">
+ 			<p class="paragraph">
+ 				One of the ways we can help stop climate change is, <a style="color: #00ffff;">planting trees</a>! Trees and plants are very important to this planet. They take <a style="color: #00ffff;">carbon dioxide</a>, one of the harmful gases, out of the air and store it in their trunks and branches. Even though we know that planting trees will help the climate, many forests are still being cut down. This is called <a style="color: #00ffff;">Deforestation</a>.
+ 			</p>
+ 		</div>
+ 		<div class="col-md-1"></div>
+ 	</div>
+ 	<br>
+	<br>
+	<br>
+	<br>
+ 	<div class="row">
+ 		<div class="col-md-1"></div>
+ 		<div class="col-md-10">
+ 			<div class="graph" id="deforestationGraph"></div>
+ 		</div>
+ 		<div class="col-md-1"></div>
+ 	</div>
+ 	<br>
+ 	<br>
+ 	<br>
+ 	<br>
+ 	<div class="row">
+ 		<div class="col-md-1"></div>
+ 		<div class="col-md-10">
+ 			<h1>About the Graph:</h1>
+ 			<p class="paragraph">
+ 				The graph above shows us the percentage decrease of land around the world covered in forests. The average annual decrease was <a id="averageRateOfChange" style="color: #00ffff;"></a> <a style="color: #00ffff;">Percent</a>. The biggest decrease over a one year period was <a id="greatestChange" style="color: #00ffff;"></a> <a style="color: #00ffff;">Percent</a>.
+ 			</p>
+ 		</div>
+ 		<div class="col-md-1"></div>
+ 	</div>
+ 	<br>
+ 	<br>
+ 	<br>
+ 	<br>
+ 	<div class="row">
+ 		<div class="col-md-1"></div>
+ 		<div class="col-md-4">
+ 			<p class="textStyle">Please do not forget to take <a style="color: #00ffff;">The QUIZ</a>.</p>
+ 			<p class="textStyle">Click <a href="QUIZ.html" style="color: #ff007f;">HERE</a>.</p>
+ 		</div>
+ 		<div class="col-md-1"></div>
+ 		<div class="col-md-5">
+ 			<div class="frFact">
+ 				<img src="frighteningFactDe.png" class="frFactImgStyle" title="Frightening Fact">
+ 			</div>
+ 		</div>
+ 		<div class="col-md-1"></div>
+ 		</div>
+ 	</div>
+ 	<br>
+ 	<br>
+</body>
+</html>
+
+<!----------------------Script to change the background colour------------------------------->
+
+<script type="text/javascript"> 
+	var backColor=localStorage.backgroundColor; //Checking the local storage for background colour and font colour.
+	var textColor=localStorage.color;
+
+	if(backColor){
+		document.body.style.backgroundColor=backColor; //Setting the pages background and font colour to what is in the local storage.
+	};
+
+	if(textColor){
+		document.body.style.color=textColor;
+	};
+</script>
+
+<!-----------------Connection to firebase and to plotly-------------------------------------->
+
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/7.8.1/firebase.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/7.8.1/firebase-analytics.js"></script>
+
+<script>
+  
+//Connection to the Firebase.
+
+  var firebaseConfig = {
+    apiKey: "AIzaSyCjcGYzLeGeiHABRhrr9JTNzZUiPoQW9Bk",
+    authDomain: "lccsproject-climate-change.firebaseapp.com",
+    databaseURL: "https://lccsproject-climate-change.firebaseio.com",
+    projectId: "lccsproject-climate-change",
+    storageBucket: "lccsproject-climate-change.appspot.com",
+    messagingSenderId: "1057025490978",
+    appId: "1:1057025490978:web:cb8f4b6b55c9ce466c8a7b",
+    measurementId: "G-FE4P99JXPJ"
+  };
+  
+  firebase.initializeApp(firebaseConfig);
+  firebase.analytics();
+</script>
+
+<!--------------Function to Graph the relevant Data from Firebase---------------------------->
+
+<script type="text/javascript">
+	var deforestationList=[];
+	var years=[];
+
+//Connects to the relevant node in Firebase and pushes the data points 'Year' and 'ForestPercent' to the lists above.
+
+	var deforestationData=firebase.database().ref("/Deforestation/");
+	deforestationData.on("child_added", function(data, prevChildKey){
+		var dataPoint=data.val();
+		deforestationList.push(parseFloat(dataPoint.ForestPercent));
+		var dataPoint=data.val();
+		years.push(parseFloat(dataPoint.Year));
+		graphData(); //Calls the graphing function.
+	});
+
+	function graphData(){
+
+//Set up the x and y values for the graph, the colour and the layout!
+
+		var deforestation={
+			y : deforestationList,
+			x : years,
+			name : "Forest Percent",
+			mode : "lines+markers",
+			line :{
+				width : 3,
+				color: "#00b51a"
+			}
+		};
+		var layout={
+			title : "Percentage of land area covered in Forest:",
+			xaxis : {title: "Year"},
+			yaxis : {title: "Land covered by Forest (%)"}
+		};
+
+		var data=[deforestation];
+		Plotly.newPlot("deforestationGraph", data, layout); //Plots the graph in the div with the same id.
+	};
+
+//Firebase data on the analysis of the graph, data is set to a value and posted to the screen using 'inner HTML' and 'getElementById'.
+
+	var analysis=firebase.database().ref("/AnalysisOfGraph/");
+	analysis.on("child_added", function(data, prevChildKey){
+		var dataPoint=data.val();
+		var averageRateOfChange=parseFloat(dataPoint.AverageDeforestationChange);
+		document.getElementById("averageRateOfChange").innerHTML=averageRateOfChange;
+
+		var greatestChange=parseFloat(dataPoint.MaxDeforestationValue);
+		document.getElementById("greatestChange").innerHTML=greatestChange;
+	});
+</script>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Save Our Future - Settings</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body class="body">
+	<div class="SettingsPage">
+		<div class="settingsText1">Your Settings: </div>
+		<br>
+		<div class="settingsText2">Choose your Background Colour: </div>
+		<br>
+		<br>
+		<button onclick="lightMode()" class="settingsBtnStyle1" title="Light Mode">Light Mode</button>
+		<br>
+		<br>
+		<button onclick="goGreen()" class="settingsBtnStyle2" title="GO GREEN!">Go Green</button>
+		<br>
+		<br>
+		<button onclick="darkMode()" class="settingsBtnStyle3" title="Dark Mode">Dark Mode</button>
+		<br>
+		<br>
+		<br>
+		<br>
+		<button onclick="window.location.href='index.html';" class="settingsBtnStyle4" title="Save and Exit">Save and Exit</button>
+	</div>
+</body>
+</html>
+
+<!--Functions that physically change the background colour in front of the user by clicking a button-->
+
+<script type="text/javascript">
+	function lightMode(){
+		document.body.style.backgroundColor='white';
+		localStorage.backgroundColor='white';
+		document.body.style.color='#040404';
+		localStorage.color='#040404';
+	};
+
+	function goGreen(){
+		document.body.style.backgroundColor='#00b51a';
+		localStorage.backgroundColor='#00b51a';
+		document.body.style.color='white';
+		localStorage.color='white';
+	};
+
+	function darkMode(){
+		document.body.style.backgroundColor='#040404';
+		localStorage.backgroundColor='#040404';
+		document.body.style.color='white';
+		localStorage.color='white';
+	};
+</script>
+
+<!--Script to change the background colour-->
+
+<script type="text/javascript">
+	var backColor=localStorage.backgroundColor;
+	var textColor=localStorage.color;
+
+	if(backColor){
+		document.body.style.backgroundColor=backColor;
+	};
+
+	if(textColor){
+		document.body.style.color=textColor;
+	};
+</script>

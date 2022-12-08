@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Save Our Future - Ice Sheets</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+
+  <!-------------------------TOP BANNER FOR THE PAGE----------------------------------------->
+	
+	<div class="title">
+		<div class="row">
+			<div class="col-md-1">
+				<div class="iconDiv">
+					<button onclick="window.location.href='index.html';" class="iconBtn" title="Home"><img class="icons" src="homeIcon.png"></button>
+				</div>
+			</div>
+			<div class="col-md-7">
+				<div class="text">
+					Save Our Future!!<a style="font-size: 40px; text-shadow: 1.5px 2px #ff007f"> - Ice Sheets</a>
+				</div>
+			</div>
+			<div class="col-md-2"></div>
+			<div class="col-md-1">
+				<img src="13Change.png" class="logo" title="Climate Change Logo">
+			</div>
+			<div class="col-md-1"></div>
+		</div>
+	</div>
+
+  <!------------------------------------Navigation------------------------------------------->
+  	<br>
+  	<br>
+  	<br>
+  	<br>
+  	<div class="row">
+  		<div class="col-md-1"></div>
+  		<div class="col-md-2">
+  			<button onclick="window.location.href='Emissions.html';" class="nav">
+  				<div class="nav">
+  					<img src="leftArrow.png" class="arrowIcon"><p class="navText">Emissions</p>
+  				</div>
+  			</button>
+  		</div>
+  		<div class="col-md-6"></div>
+  		<div class="col-md-2">
+  			<button onclick="window.location.href='SeaLevels.html';" class="nav">
+  				<div class="nav">
+  					<p class="navText">Sea-Levels</p><img src="rightArrow.png" class="arrowIcon">
+  				</div>
+  			</button>
+  		</div>
+  		<div class="col-md-1"></div>
+  	</div>
+  	<br>
+ 	<br>
+
+  <!--------------------------MAIN BODY OF CONTENT, IMAGES AND BUTTONS----------------------->
+
+ 	<div class="row">
+ 		<div class="col-md-1"></div>
+ 		<div class="col-md-10">
+ 			<p class="paragraph">
+ 				The <a style="color: #00ffff;">North</a> and <a style="color: #00ffff;">South Pole</a> are very, very cold places. They are made up of many islands of ice, called <a style="color: #00ffff;">icebergs</a>. These are home to so many mammals like, polar bears and penguins. With the rise in temperature, scientists have seen that these icebergs are melting. This means that the polar bears, penguins and all the mammals that live on these icebergs could become extinct. <a style="color: #00ffff;">Extinction</a> happens when an entire species dies out. With their natural habitats melted away they will no longer be able to exist. How sad is it that our actions could cause such a terrible disaster? That is why it is important for us to try and do our bit to help our climate and help the polar bears and penguins.
+ 		</div>
+ 		<div class="col-md-1"></div>
+ 	</div>
+ 	<br>
+	<br>
+	<br>
+	<br>
+ 	<div class="row">
+ 		<div class="col-md-1"></div>
+ 		<div class="col-md-10">
+ 			<div class="graph" id="iceSheetsGraph"></div>
+ 		</div>
+ 		<div class="col-md-1"></div>
+ 	</div>
+ 	<br>
+ 	<br>
+ 	<br>
+ 	<br>
+ 	<div class="row">
+ 		<div class="col-md-1"></div>
+ 		<div class="col-md-10">
+ 			<h1>About the Graph:</h1>
+ 			<p class="paragraph">
+ 				The graph above shows the decrease in the average mass of ice in the world's icebergs. Their mass was first recorded by <a style="color: #00ffff;">NASA</a> in 1945, this value was used as 0 and every year since its decrease has been recorded relative to '0'. It has been decreasing at an average annual rate of <a id="averageRateOfChange" style="color: #00ffff;"></a> from the previous year. The biggest decrease over a one year period was <a id="greatestChange" style="color: #00ffff;"></a>.
+ 			</p>
+ 		</div>
+ 		<div class="col-md-1"></div>
+ 	</div>
+ 	<br>
+ 	<br>
+ 	<br>
+ 	<br>
+ 	<div class="row">
+ 		<div class="col-md-6"></div>
+ 		<div class="col-md-5">
+ 			<div class="frFact">
+ 				<img src="frighteningFactIs.png" class="frFactImgStyle" title="Frightening Fact">
+ 			</div>
+ 		</div>
+ 		<div class="col-md-1"></div>
+ 		</div>
+ 	</div>
+ 	<br>
+ 	<br>
+</body>
+</html>
+
+<!------------------------Script to change the background colour----------------------------->
+
+<script type="text/javascript">
+	var backColor=localStorage.backgroundColor;
+	var textColor=localStorage.color;
+
+	if(backColor){
+		document.body.style.backgroundColor=backColor;
+	};
+
+	if(textColor){
+		document.body.style.color=textColor;
+	};
+</script>
+
+<!-----------------Connection to firebase and to plotly-------------------------------------->
+
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/7.8.1/firebase.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/7.8.1/firebase-analytics.js"></script>
+
+<script>
+  
+  var firebaseConfig = {
+    apiKey: "AIzaSyCjcGYzLeGeiHABRhrr9JTNzZUiPoQW9Bk",
+    authDomain: "lccsproject-climate-change.firebaseapp.com",
+    databaseURL: "https://lccsproject-climate-change.firebaseio.com",
+    projectId: "lccsproject-climate-change",
+    storageBucket: "lccsproject-climate-change.appspot.com",
+    messagingSenderId: "1057025490978",
+    appId: "1:1057025490978:web:cb8f4b6b55c9ce466c8a7b",
+    measurementId: "G-FE4P99JXPJ"
+  };
+  
+  firebase.initializeApp(firebaseConfig);
+  firebase.analytics();
+</script>
+
+<!--------------Function to Graph the relevant Data from Firebase---------------------------->
+
+<script type="text/javascript">
+	var iceSheetsList=[];
+	var years=[];
+
+	var iceSheetsData=firebase.database().ref("/Ice Sheets Mass/");
+	iceSheetsData.on("child_added", function(data, prevChildKey){
+		var dataPoint=data.val();
+		iceSheetsList.push(parseFloat(dataPoint.AverageMassofIceSheets));
+		graphData();
+	});
+	var yearsValue=firebase.database().ref("/Ice Sheets Mass/");
+	yearsValue.on("child_added", function(data, prevChildKey){
+		var dataPoint=data.val();
+		years.push(parseFloat(dataPoint.Year));
+	});
+
+	function graphData(){
+		var iceSheets={
+			y : iceSheetsList,
+			x : years,
+			name : "Average Ice Sheet Mass",
+			mode : "lines+markers",
+			line:{
+				color : "#040404"
+			}
+		};
+		var layout={
+			title : "Decrease in Ice Sheet Mass:",
+			xaxis : {title: "Year"},
+			yaxis : {title: "Decrease in Mass since 1945"}
+		};
+
+		var data=[iceSheets];
+		Plotly.newPlot("iceSheetsGraph", data, layout);
+	};
+
+	var analysis=firebase.database().ref("/AnalysisOfGraph/");
+	analysis.on("child_added", function(data, prevChildKey){
+		var dataPoint=data.val();
+		var averageRateOfChange=parseFloat(dataPoint.AverageIceSheetsChange);
+		document.getElementById("averageRateOfChange").innerHTML=averageRateOfChange;
+
+		var greatestChange=parseFloat(dataPoint.MaxIceSheetsValue);
+		document.getElementById("greatestChange").innerHTML=greatestChange;
+	});
+</script>

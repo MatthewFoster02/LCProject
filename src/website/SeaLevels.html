@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Save Our Future - Sea Levels</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+
+  <!-------------------------TOP BANNER FOR THE PAGE----------------------------------------->
+	
+	<div class="title">
+		<div class="row">
+			<div class="col-md-1">
+				<div class="iconDiv">
+					<button onclick="window.location.href='index.html';" class="iconBtn" title="Home"><img class="icons" src="homeIcon.png"></button>
+				</div>
+			</div>
+			<div class="col-md-7">
+				<div class="text">
+					Save Our Future!!<a style="font-size: 40px; text-shadow: 1.5px 2px #ff007f"> - Sea Levels</a>
+				</div>
+			</div>
+			<div class="col-md-2"></div>
+			<div class="col-md-1">
+				<img src="13Change.png" class="logo" title="Climate Change Logo">
+			</div>
+			<div class="col-md-1"></div>
+		</div>
+	</div>
+
+  <!------------------------------------Navigation------------------------------------------->
+  	<br>
+  	<br>
+  	<br>
+  	<br>
+  	<div class="row">
+  		<div class="col-md-1"></div>
+  		<div class="col-md-2">
+  			<button onclick="window.location.href='IceSheets.html';" class="nav">
+  				<div class="nav">
+  					<img src="leftArrow.png" class="arrowIcon"><p class="navText">Ice-Sheets</p>
+  				</div>
+  			</button>
+  		</div>
+  		<div class="col-md-6"></div>
+  		<div class="col-md-2">
+  			<button onclick="window.location.href='Deforestation.html';" class="nav">
+  				<div class="nav">
+  					<p class="navText">Deforestation</p><img src="rightArrow.png" class="arrowIcon">
+  				</div>
+  			</button>
+  		</div>
+  		<div class="col-md-1"></div>
+  	</div>
+  	<br>
+ 	<br>
+
+  <!--------------------------MAIN BODY OF CONTENT, IMAGES AND BUTTONS----------------------->
+
+ 	<div class="row">
+ 		<div class="col-md-1"></div>
+ 		<div class="col-md-10">
+ 			<p class="paragraph">
+ 				When the icebergs melt, they turn into water. This causes the <a style="color: #00ffff;">Sea Level</a> to rise. With the sea level rising, more and more coasts will flood and end up under water. Small islands in the middle of big oceans will also be totally flooded. This will mean the destruction of many natural habitats around the world. As with the other problems on this website, <a style="color: #00ffff;">we can</a> do our bit to help. <a style="color: #00ffff;">We can all help stop this from happening.</a>
+ 			</p>
+ 		</div>
+ 		<div class="col-md-1"></div>
+ 	</div>
+ 	<br>
+	<br>
+	<br>
+	<br>
+ 	<div class="row">
+ 		<div class="col-md-1"></div>
+ 		<div class="col-md-10">
+ 			<div class="graph" id="seaLevelsGraph"></div>
+ 		</div>
+ 		<div class="col-md-1"></div>
+ 	</div>
+ 	<br>
+ 	<br>
+ 	<br>
+ 	<br>
+ 	<div class="row">
+ 		<div class="col-md-1"></div>
+ 		<div class="col-md-10">
+ 			<h1>About the Graph:</h1>
+ 			<p class="paragraph">
+ 				The graph above shows us the increase in our sea levels since 1920. The increase is recorded relative to when it was first recorded in 1881. The average annual increase was <a id="averageRateOfChange" style="color: #00ffff;"></a> <a style="color: #00ffff;">CentiMetres</a> from the previous year. The biggest increase over a one year period was <a id="greatestChange" style="color: #00ffff;"></a> <a style="color: #00ffff;">CentiMetres</a>.
+ 			</p>
+ 		</div>
+ 		<div class="col-md-1"></div>
+ 	</div>
+ 	<br>
+ 	<br>
+ 	<br>
+ 	<br>
+ 	<div class="row">
+ 		<div class="col-md-6"></div>
+ 		<div class="col-md-5">
+ 			<div class="frFact">
+ 				<img src="frighteningFactSl.png" class="frFactImgStyle" title="Frightening Fact">
+ 			</div>
+ 		</div>
+ 		<div class="col-md-1"></div>
+ 		</div>
+ 	</div>
+ 	<br>
+ 	<br>
+</body>
+</html>
+
+<!----------------------Script to change the background colour------------------------------->
+
+<script type="text/javascript">
+	var backColor=localStorage.backgroundColor;
+	var textColor=localStorage.color;
+
+	if(backColor){
+		document.body.style.backgroundColor=backColor;
+	};
+
+	if(textColor){
+		document.body.style.color=textColor;
+	};
+</script>
+
+<!-----------------Connection to firebase and to plotly-------------------------------------->
+
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/7.8.1/firebase.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/7.8.1/firebase-analytics.js"></script>
+
+<script>
+  
+  var firebaseConfig = {
+    apiKey: "AIzaSyCjcGYzLeGeiHABRhrr9JTNzZUiPoQW9Bk",
+    authDomain: "lccsproject-climate-change.firebaseapp.com",
+    databaseURL: "https://lccsproject-climate-change.firebaseio.com",
+    projectId: "lccsproject-climate-change",
+    storageBucket: "lccsproject-climate-change.appspot.com",
+    messagingSenderId: "1057025490978",
+    appId: "1:1057025490978:web:cb8f4b6b55c9ce466c8a7b",
+    measurementId: "G-FE4P99JXPJ"
+  };
+  
+  firebase.initializeApp(firebaseConfig);
+  firebase.analytics();
+</script>
+
+<!--------------Function to Graph the relevant Data from Firebase---------------------------->
+
+<script type="text/javascript">
+	var seaLevelsList=[];
+	var years=[];
+
+	var seaLevelsData=firebase.database().ref("/SeaLevels/");
+	seaLevelsData.on("child_added", function(data, prevChildKey){
+		var dataPoint=data.val();
+		seaLevelsList.push(parseFloat(dataPoint.SeaLevel));
+		graphData();
+	});
+	var yearsValue=firebase.database().ref("/SeaLevels/");
+	yearsValue.on("child_added", function(data, prevChildKey){
+		var dataPoint=data.val();
+		years.push(parseFloat(dataPoint.Year));
+	});
+
+	function graphData(){
+		var seaLevels={
+			y : seaLevelsList,
+			x : years,
+			name : "Global Sea Level",
+			mode : "lines+markers",
+			line:{
+				color : "#00ffff"
+			}
+		};
+		var layout={
+			title : "Increase in Global Sea Levels:",
+			xaxis : {title: "Year"},
+			yaxis : {title: "Rise in Sea Level since 1920"}
+		};
+
+		var data=[seaLevels];
+		Plotly.newPlot("seaLevelsGraph", data, layout);
+	};
+
+	var analysis=firebase.database().ref("/AnalysisOfGraph/");
+	analysis.on("child_added", function(data, prevChildKey){
+		var dataPoint=data.val();
+		var averageRateOfChange=parseFloat(dataPoint.AverageSeaLevelsChange);
+		document.getElementById("averageRateOfChange").innerHTML=averageRateOfChange;
+
+		var greatestChange=parseFloat(dataPoint.MaxSeaLevelsValue);
+		document.getElementById("greatestChange").innerHTML=greatestChange;
+	});
+</script>
