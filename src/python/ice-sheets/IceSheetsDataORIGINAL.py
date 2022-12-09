@@ -1,9 +1,11 @@
 # LCCS Climate Change Project
-# Examination Number: 153686
+# Examination Number: 000000
 
-from firebase import firebase #Import firebase.
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import firestore #Import firebase.
 
-iceSheets=open('iceSheets.csv', 'r') #Open ice sheets excel file.
+iceSheets=open('src/data/iceSheets.csv', 'r') #Open ice sheets excel file.
 iceSheetsData=iceSheets.read() #Extract the data in the excel file.
 iceSheets.close() #Close the file.
 
@@ -24,14 +26,19 @@ while(index<len(iceSheetsData) and index2<len(iceSheetsData)): #While both count
     
 #print(years, '\n\n', iceSheetsValue) #Testing and Debugging
 
-connection=firebase.FirebaseApplication('https://lccsproject-climate-change.firebaseio.com/', None) #Make the connection to firebase.
+cred = credentials.Certificate('C:/Users/mattf/OneDrive/Documents/ComputerScience2020LeavingCertProject/lccsproject-climate-change-firebase-adminsdk-gpt1q-4de2329405.json')
+
+app = firebase_admin.initialize_app(cred)
+
+db = firestore.client() #Connect to the Firebase database.
 
 counter=0 #Set counter to zero
 while(counter<len(years)): #Whilst the counter is less than the length of the years list, run code inside the loop.
     iceSheetsPost={ #Variable equal to the data I am going to post to firebase.
         'Year' : years[counter], #Year value.
-        'Average mass of Ice Sheets' : iceSheetsValue[counter] #The ice sheets value.
+        'IceSheets' : iceSheetsValue[counter] #The ice sheets value.
         }
 
-    connection.post('/Ice Sheets Mass/', iceSheetsPost) #Upload the data.
+    doc_ref = db.collection(u'IceSheets').document(str(years[counter]))
+    doc_ref.set(iceSheetsPost) #Upload the data.
     counter+=1 #Increase the counter by one.

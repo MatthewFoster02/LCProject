@@ -136,119 +136,115 @@
 
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
-<script src="https://www.gstatic.com/firebasejs/7.8.1/firebase.js"></script>
+<script type="module">
+	import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
+    import { getFirestore, getDocs, collection } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
 
-<script src="https://www.gstatic.com/firebasejs/7.8.1/firebase-analytics.js"></script>
+	// TODO: Replace the following with your app's Firebase project configuration
+	// See: https://firebase.google.com/docs/web/learn-more#config-object
+	const firebaseConfig = {
+		apiKey: "AIzaSyCjcGYzLeGeiHABRhrr9JTNzZUiPoQW9Bk",
+		authDomain: "lccsproject-climate-change.firebaseapp.com",
+		databaseURL: "https://lccsproject-climate-change.firebaseio.com",
+		projectId: "lccsproject-climate-change",
+		storageBucket: "lccsproject-climate-change.appspot.com",
+		messagingSenderId: "1057025490978",
+		appId: "1:1057025490978:web:cb8f4b6b55c9ce466c8a7b",
+		measurementId: "G-FE4P99JXPJ"
+	};
 
-<script>
-  
-  var firebaseConfig = {
-    apiKey: "AIzaSyCjcGYzLeGeiHABRhrr9JTNzZUiPoQW9Bk",
-    authDomain: "lccsproject-climate-change.firebaseapp.com",
-    databaseURL: "https://lccsproject-climate-change.firebaseio.com",
-    projectId: "lccsproject-climate-change",
-    storageBucket: "lccsproject-climate-change.appspot.com",
-    messagingSenderId: "1057025490978",
-    appId: "1:1057025490978:web:cb8f4b6b55c9ce466c8a7b",
-    measurementId: "G-FE4P99JXPJ"
-  };
-  
-  firebase.initializeApp(firebaseConfig);
-  firebase.analytics();
-</script>
+	// Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    // Initialize Cloud Firestore and get a reference to the service
+    const db = getFirestore(app);
 
-<!--------------Function to Graph the relevant Data from Firebase---------------------------->
+	// ADD PLOT HERE
+	getDocs(collection(db, "Emissions")).then(docSnap => 
+	{
+		let co2List=[];
+		let ch4List=[];
+		let n2oList=[];
+		let years=[];
+		let emissionsList=[];
+		docSnap.forEach((doc) => 
+		{
+			let dataPoint = doc.data();
+			co2List.push(parseFloat(dataPoint.CO2));
+			ch4List.push(parseFloat(dataPoint.CH4));
+			n2oList.push(parseFloat(dataPoint.N2O));
+			years.push(parseInt(dataPoint.Year));
+			emissionsList.push(parseFloat(dataPoint.CO2 + dataPoint.CH4 + dataPoint.N2O));
+			graphData();
+		});
 
-<script type="text/javascript">
-	var co2List=[];
-	var ch4List=[];
-	var n2oList=[];
-	var years=[];
-	var emissionsList=[];
+		function graphData(){
+			var emissionsValues={
+				y : emissionsList,
+				x : years,
+				name : "All Greenhouse Gas Emissions",
+				mode : "lines+markers",
+				line :{
+					color :"#00b51a"
+				}
+			}
 
-	var dataTable=firebase.database().ref("/EmissionsData/");
-	dataTable.on("child_added", function(data, prevChildKey){
-		var co2DataPoint=data.val();
-		co2List.push(parseFloat(co2DataPoint.CO2));
+			var CO2values={
+				y : co2List,
+				x : years,
+				name : "CO2 (Carbon Dioxide)",
+				mode : "lines+markers",
+				line :{
+					dash : "dot",
+					width : 2,
+					color : "#ff007f"
+				}
+			}
 
-		var ch4DataPoint=data.val();
-		ch4List.push(parseFloat(ch4DataPoint.CH4));
+			var CH4values={
+				y : ch4List,
+				x : years,
+				name : "CH4 (Methane)",
+				mode : "lines+markers",
+				line :{
+					dash : "dot",
+					width : 2,
+					color : "#040404"
+				}
+			}
 
-		var n2oDataPoint=data.val();
-		n2oList.push(parseFloat(n2oDataPoint.N2O));
+			var N2Ovalues={
+				y : n2oList,
+				x : years,
+				name : "N2O (Nitrous Oxide)",
+				mode : "lines+markers",
+				line :{
+					dash : "dot",
+					width : 2,
+					color : "#00ffff"
+				}
+			}
 
-		var yearsDataPoint=data.val();
-		years.push(parseInt(yearsDataPoint.Year));
+			var layout={
+				title : "Increase in World Emissions:",
+				xaxis : {title: "Year"},
+				yaxis : {title: "Emission Values (Kilotonnes)"}
+			}
 
-		var emissionsDataPoint=data.val();
-		emissionsList.push(parseFloat((emissionsDataPoint.CO2)+(emissionsDataPoint.CH4)+(emissionsDataPoint.N2O)));
-		graphData();
+			var data=[emissionsValues, CO2values, CH4values, N2Ovalues];
+			Plotly.newPlot("emissionsGraph", data, layout);
+		}
 	});
 
-	function graphData(){
-		var emissionsValues={
-			y : emissionsList,
-			x : years,
-			name : "All Greenhouse Gas Emissions",
-			mode : "lines+markers",
-			line :{
-				color :"#00b51a"
-			}
-		}
+	getDocs(collection(db, "AnalysisOfGraph")).then(docSnap => 
+	{
+		docSnap.forEach((doc) => 
+		{
+			let dataPoint = doc.data();
+			let averageRateOfChange=parseFloat(dataPoint.AverageEmissionsChange);
+			document.getElementById("averageRateOfChange").innerHTML=averageRateOfChange;
 
-		var CO2values={
-			y : co2List,
-			x : years,
-			name : "CO2 (Carbon Dioxide)",
-			mode : "lines+markers",
-			line :{
-				dash : "dot",
-				width : 2,
-				color : "#ff007f"
-			}
-		}
-
-		var CH4values={
-			y : ch4List,
-			x : years,
-			name : "CH4 (Methane)",
-			mode : "lines+markers",
-			line :{
-				dash : "dot",
-				width : 2,
-				color : "#040404"
-			}
-		}
-
-		var N2Ovalues={
-			y : n2oList,
-			x : years,
-			name : "N2O (Nitrous Oxide)",
-			mode : "lines+markers",
-			line :{
-				dash : "dot",
-				width : 2,
-				color : "#00ffff"
-			}
-		}
-
-		var layout={
-			title : "Increase in World Emissions:",
-			xaxis : {title: "Year"},
-			yaxis : {title: "Emission Values (Kilotonnes)"}
-		}
-
-		var data=[emissionsValues, CO2values, CH4values, N2Ovalues];
-		Plotly.newPlot("emissionsGraph", data, layout);
-	}
-
-	var analysis=firebase.database().ref("/AnalysisOfGraph/");
-	analysis.on("child_added", function(data, prevChildKey){
-		var dataPoint=data.val();
-		var averageRateOfChange=parseFloat(dataPoint.AverageEmissionsChange);
-		document.getElementById("averageRateOfChange").innerHTML=averageRateOfChange;
-
-		var greatestChange=parseFloat(dataPoint.MaxEmissionsValue);
-		document.getElementById("greatestChange").innerHTML=greatestChange;
+			let greatestChange=parseFloat(dataPoint.MaxEmissionsValue);
+			document.getElementById("greatestChange").innerHTML=greatestChange;
+		});		
 	});
 </script>

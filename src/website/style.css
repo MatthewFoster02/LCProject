@@ -227,12 +227,12 @@ body{
   border-radius: 50%;
 }
 
-/* On mouse-over, add a grey background color */
+/* On mouse-over, add a pink background color */
 .wrapper:hover input ~ .radioStyle{
   background-color: #ff007f;
 }
 
-/* When the radio button is checked, add a blue background */
+/* When the radio button is checked, add a green background */
 .wrapper input:checked ~ .radioStyle{
   background-color: #00b51a;
 }

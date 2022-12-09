@@ -1,8 +1,10 @@
 # LCCS Climate Change Project
-# Examination Number: 153686
+# Examination Number: 000000
 
 import emissions #Import the emissions program for CORGIs.
-from firebase import firebase # Import firebase.
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import firestore #Import firebase.
 
 emissions = emissions.get_emissions() #Set the list of emissions to variable called emissions.
 
@@ -42,7 +44,13 @@ for index in years: #For each of the indexes in years.
 
 year=1970 #Set the year variable to 1970, first year.
 index=0 #Set index counter to zero.
-connection=firebase.FirebaseApplication('https://lccsproject-climate-change.firebaseio.com/', None) #Connect to firebase database.
+
+cred = credentials.Certificate('C:/Users/mattf/OneDrive/Documents/ComputerScience2020LeavingCertProject/lccsproject-climate-change-firebase-adminsdk-gpt1q-4de2329405.json')
+
+app = firebase_admin.initialize_app(cred)
+
+db = firestore.client() #Connect to the Firebase database.
+
 while(year<=2012): #When the year is less than/equal to 2012 do what is inside the while statement.
     emissionsData={ #Variable equal to what I want to send to database.
         'Year' : year, #The year.
@@ -51,7 +59,8 @@ while(year<=2012): #When the year is less than/equal to 2012 do what is inside t
         'CH4' : n2oEmissions[index] #and methane.
         } 
 
-    connection.post('/EmissionsData/', emissionsData) #Send the data to the database.
+    doc_ref = db.collection(u'Emissions').document(str(year))
+    doc_ref.set(emissionsData) #Send the data to the database.
     #print(emissionsData) #Debugging.
     year+=1 #Increase the year.
     index+=1 #Increase the index counter.

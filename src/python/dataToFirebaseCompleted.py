@@ -1,7 +1,9 @@
 # LCCS Climate Change Project
-# Examination Number: 153686
+# Examination Number: 000000
 
-from firebase import firebase # Import firebase.
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import firestore #Import firebase.
 
 #---------Emissions Function-------------------------------------------------------------------------------------
 
@@ -45,20 +47,20 @@ def emissions():
 
     year=1970 #Set the year variable to 1970, first year.
     index=0 #Set index counter to zero.
-    connection=firebase.FirebaseApplication('https://lccs-proje.firebaseio.com/', None) #Connect to firebase database.
-    while(year<=2012): #When the year is less than/equal to 2012 do what is inside the while statement.
-        emissionsData={ #Variable equal to what I want to send to database.
-            'Year' : year, #The year.
-            'CO2' : ch4Emissions[index], #Carbon Emissions value for that year.
-            'N2O' : co2Emissions[index], #Same with nitrous,
-            'CH4' : n2oEmissions[index] #and methane.
-            } 
+    # connection=firebase.FirebaseApplication('https://lccs-proje.firebaseio.com/', None) #Connect to firebase database.
+    # while(year<=2012): #When the year is less than/equal to 2012 do what is inside the while statement.
+    #     emissionsData={ #Variable equal to what I want to send to database.
+    #         'Year' : year, #The year.
+    #         'CO2' : ch4Emissions[index], #Carbon Emissions value for that year.
+    #         'N2O' : co2Emissions[index], #Same with nitrous,
+    #         'CH4' : n2oEmissions[index] #and methane.
+    #         } 
 
-        connection.post('/EmissionsData/', emissionsData) #Send the data to the database.
-        #print(emissionsData) #Debugging.
-        year+=1 #Increase the year.
-        index+=1 #Increase the index counter.
-    print('\n\n\nData Sent!') #Notify the end user that the data has been posted.
+    #     connection.post('/EmissionsData/', emissionsData) #Send the data to the database.
+    #     #print(emissionsData) #Debugging.
+    #     year+=1 #Increase the year.
+    #     index+=1 #Increase the index counter.
+    # print('\n\n\nData Sent!') #Notify the end user that the data has been posted.
     
     totalEmissions=[] #Empty list for all three emissions combined.
     index=0 #Set index position to zero.
@@ -75,7 +77,7 @@ def emissions():
 #----------Sea Levels Function-----------------------------------------------------------------------------------------------------------
     
 def seaLevels():
-    seaLevel=open("seaLevelexcel.csv", "r") #Open sea level excel file.
+    seaLevel=open("src/data/seaLevelexcel.csv", "r") #Open sea level excel file.
     seaData=seaLevel.read() #Extract the data from the excel file.
     seaLevel.close() #Close the file!
 
@@ -90,25 +92,25 @@ def seaLevels():
         sea_values.append(seaData[indexValue]) #Append to the sea_values list the value at the index of the seaData List.
         indexValue+=4 #Increase the index counter by 4, this moves to the next index with a value to be added to the sea_values list.
     
-    connection=firebase.FirebaseApplication('https://lccs-proje.firebaseio.com/', None) #Connect to the Firebase database.
-    index=1 #Set index counter.
-    year=1920 #Set the year value to 1920, the first year with data.
-    while(year<=2013): #While the year value is less than 2013, the final year with data, run the code inside the loop.
-        seaLevels={ #Variable is equal to the data I want to send to firebase.
-            'Year' : year, #Year value.
-            'Sea Level' : sea_values[index] #Sea level data.
-            }
+    # connection=firebase.FirebaseApplication('https://lccs-proje.firebaseio.com/', None) #Connect to the Firebase database.
+    # index=1 #Set index counter.
+    # year=1920 #Set the year value to 1920, the first year with data.
+    # while(year<=2013): #While the year value is less than 2013, the final year with data, run the code inside the loop.
+    #     seaLevels={ #Variable is equal to the data I want to send to firebase.
+    #         'Year' : year, #Year value.
+    #         'Sea Level' : sea_values[index] #Sea level data.
+    #         }
     
-        connection.post('/SeaLevels/', seaLevels) #Send the data to Firebase under the heading 'SeaLevels'.
-        index+=1 #Increase the index counter.
-        year+=1 #Increase the year value.
-    print('\n\n\nData Sent!') #Notify the end user that the data has been posted.
+    #     connection.post('/SeaLevels/', seaLevels) #Send the data to Firebase under the heading 'SeaLevels'.
+    #     index+=1 #Increase the index counter.
+    #     year+=1 #Increase the year value.
+    # print('\n\n\nData Sent!') #Notify the end user that the data has been posted.
     return sea_values #Return this list for later analysis.
         
 #-------------Ice Sheets Function----------------------------------------------------------------------------------------------
         
 def iceSheets():
-    iceSheets=open('iceSheets.csv', 'r') #Open ice sheets excel file.
+    iceSheets=open('src/data/iceSheets.csv', 'r') #Open ice sheets excel file.
     iceSheetsData=iceSheets.read() #Extract the data in the excel file.
     iceSheets.close() #Close the file.
 
@@ -129,24 +131,24 @@ def iceSheets():
     
     #print(years, '\n\n', iceSheetsValue) #Testing and Debugging
 
-    connection=firebase.FirebaseApplication('https://lccs-proje.firebaseio.com/', None) #Make the connection to firebase.
+    # connection=firebase.FirebaseApplication('https://lccs-proje.firebaseio.com/', None) #Make the connection to firebase.
 
-    counter=0 #Set counter to zero
-    while(counter<len(years)): #Whilst the counter is less than the length of the years list, run code inside the loop.
-        iceSheetsPost={ #Variable equal to the data I am going to post to firebase.
-            'Year' : years[counter], #Year value.
-            'Average mass of Ice Sheets' : iceSheetsValue[counter] #The ice sheets value.
-            }
+    # counter=0 #Set counter to zero
+    # while(counter<len(years)): #Whilst the counter is less than the length of the years list, run code inside the loop.
+    #     iceSheetsPost={ #Variable equal to the data I am going to post to firebase.
+    #         'Year' : years[counter], #Year value.
+    #         'Average mass of Ice Sheets' : iceSheetsValue[counter] #The ice sheets value.
+    #         }
 
-        connection.post('/Ice Sheets Mass/', iceSheetsPost) #Upload the data.
-        counter+=1 #Increase the counter by one.
-    print('\n\n\nData Sent!') #Notify the end user that the data has been posted.
+    #     connection.post('/Ice Sheets Mass/', iceSheetsPost) #Upload the data.
+    #     counter+=1 #Increase the counter by one.
+    # print('\n\n\nData Sent!') #Notify the end user that the data has been posted.
     return iceSheetsValue #Return this list for later analysis.
         
 #---------------Deforestation Function--------------------------------------------------------------------------------
         
 def deforestation():
-    deforestData=open('ForestPercentageData.csv', 'r') #Open deforestation excel file.
+    deforestData=open('src/data/ForestPercentageData.csv', 'r') #Open deforestation excel file.
     deforestationData=deforestData.read() #Extract the data from the file.
     deforestData.close() #Close the file!
 
@@ -172,20 +174,20 @@ def deforestation():
             
     #print(worldValues)
 
-    connection=firebase.FirebaseApplication('https://lccs-proje.firebaseio.com/', None) #Connect to firebase.
+    # connection=firebase.FirebaseApplication('https://lccs-proje.firebaseio.com/', None) #Connect to firebase.
 
-    year=1990 # Set Year value.
-    counter=0 #Set Index counter value.
-    while(year<=2016): #Whilst year value less than 2016, final year. Run code.
-        forestPercentValue={ #The variable we are going to post to firebase.
-            'Year' : year, #Year value is equal to the variable 'year'.
-            'Forest Percent' : worldValues[counter] #Deforestation value to post is the value in the list 'worldValues', at the index of the counter.
-            }
+    # year=1990 # Set Year value.
+    # counter=0 #Set Index counter value.
+    # while(year<=2016): #Whilst year value less than 2016, final year. Run code.
+    #     forestPercentValue={ #The variable we are going to post to firebase.
+    #         'Year' : year, #Year value is equal to the variable 'year'.
+    #         'Forest Percent' : worldValues[counter] #Deforestation value to post is the value in the list 'worldValues', at the index of the counter.
+    #         }
     
-        connection.post('/Deforestation/', forestPercentValue) #Send the data to firebase.
-        counter+=1 #Increase counter 1.
-        year+=1 #Increase year variable by 1.
-    print('\n\n\nData Sent!') #Notify the end user that the data has been posted.
+    #     connection.post('/Deforestation/', forestPercentValue) #Send the data to firebase.
+    #     counter+=1 #Increase counter 1.
+    #     year+=1 #Increase year variable by 1.
+    # print('\n\n\nData Sent!') #Notify the end user that the data has been posted.
     return worldValues #Return this list for later analysis.
     
 #----------------------Analysis of Data----------------------------------------------------------------
@@ -239,7 +241,12 @@ def calculatingAverage(inputList): #Definition to get Average and Maximum values
     deforestationAverage=round(sum(deforestationAverage)/len(deforestationAverage), 3) #Average rate of change is equal to the sum divided by the length, rounded to 3 decimal places.
     
     #Send code to firebase-----------------------------------------------------------------------------
-    connection=firebase.FirebaseApplication('https://lccs-proje.firebaseio.com/', None) #Connect to Firebase.
+    cred = credentials.Certificate('C:/Users/mattf/OneDrive/Documents/ComputerScience2020LeavingCertProject/lccsproject-climate-change-firebase-adminsdk-gpt1q-4de2329405.json')
+
+    app = firebase_admin.initialize_app(cred)
+
+    db = firestore.client() #Connect to the Firebase database.
+
     sendAverages={ #Compile the data.
         'AverageEmissionsChange' : emissionsAverage,
         'AverageSeaLevelsChange' : seaLevelsAverage,
@@ -251,7 +258,8 @@ def calculatingAverage(inputList): #Definition to get Average and Maximum values
         'MaxDeforestationValue' : maxDeforestationValue
         }
     
-    connection.post('/AnalysisOfGraph/', sendAverages) #Send to firebase.
+    doc_ref = db.collection(u'AnalysisOfGraph').document('averageAndMax')
+    doc_ref.set(sendAverages) #Send to firebase.
     print('\n\n\nData Sent!') #Notify the end user that the data has been posted.
 
 calculatingAverage(returnedValues) #Call the analysis function.

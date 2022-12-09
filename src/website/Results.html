@@ -5,7 +5,7 @@
 	<link rel="stylesheet" type="text/css" href="style.css">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
-<body>
+<body id="body">
 
 <!-------------------------TOP BANNER FOR THE PAGE----------------------------------------->	
 <div class="title">
@@ -33,7 +33,7 @@
 <br>
 <br>
 <br>
-<div class="row">
+<!-- <div class="row">
 	<div class="col-md-1"></div>
   	<div class="col-md-6">
   		<div class="score">
@@ -44,7 +44,7 @@
   		<div class="score" id="result"></div>
   	</div>
   	<div class="col-md-4"></div>
-</div>
+</div> -->
 <br>
 <br>
 <br>
@@ -106,68 +106,90 @@
 <!----------------------------Connection to firebase and Plotly------------------------------>
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
-<script src="https://www.gstatic.com/firebasejs/7.8.1/firebase.js"></script>
+<script type="module">
+	import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
+    import { getFirestore, getDocs, collection } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
 
-<script src="https://www.gstatic.com/firebasejs/7.8.1/firebase-analytics.js"></script>
+	// TODO: Replace the following with your app's Firebase project configuration
+	// See: https://firebase.google.com/docs/web/learn-more#config-object
+	const firebaseConfig = {
+		apiKey: "AIzaSyCjcGYzLeGeiHABRhrr9JTNzZUiPoQW9Bk",
+		authDomain: "lccsproject-climate-change.firebaseapp.com",
+		databaseURL: "https://lccsproject-climate-change.firebaseio.com",
+		projectId: "lccsproject-climate-change",
+		storageBucket: "lccsproject-climate-change.appspot.com",
+		messagingSenderId: "1057025490978",
+		appId: "1:1057025490978:web:cb8f4b6b55c9ce466c8a7b",
+		measurementId: "G-FE4P99JXPJ"
+	};
 
-<script>
-  
-  var firebaseConfig = {
-    apiKey: "AIzaSyCjcGYzLeGeiHABRhrr9JTNzZUiPoQW9Bk",
-    authDomain: "lccsproject-climate-change.firebaseapp.com",
-    databaseURL: "https://lccsproject-climate-change.firebaseio.com",
-    projectId: "lccsproject-climate-change",
-    storageBucket: "lccsproject-climate-change.appspot.com",
-    messagingSenderId: "1057025490978",
-    appId: "1:1057025490978:web:cb8f4b6b55c9ce466c8a7b",
-    measurementId: "G-FE4P99JXPJ"
-  };
-  
-  firebase.initializeApp(firebaseConfig);
-  firebase.analytics();
+	// Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    // Initialize Cloud Firestore and get a reference to the service
+    const db = getFirestore(app);
+
+	// ADD PLOT HERE
+	getDocs(collection(db, "QuizResults")).then(docSnap => 
+	{
+		let scoreList=[];
+		let score1=0;
+		let score2=0;
+		let score3=0;
+		let score4=0;
+		let score5=0;
+		docSnap.forEach((doc) => 
+		{
+			let dataPoint=doc.data();
+
+			if(dataPoint.Score==1){
+				score1+=1
+			}
+			if(dataPoint.Score==2){
+				score2+=1
+			}
+			if(dataPoint.Score==3){
+				score3+=1
+			}
+			if(dataPoint.Score==4){
+				score4+=1
+			}
+			if(dataPoint.Score==5){
+				score5+=1
+			}
+			scoreList.push(parseInt(dataPoint.Score));
+		});
+		let numberUsers=scoreList.length;
+		document.getElementById("userTotal").innerHTML=numberUsers;
+		function sumOfScore(total, num) {
+			return total + num;
+			}
+		let averageScore=(scoreList.reduce(sumOfScore)/scoreList.length);
+		document.getElementById("averageResult").innerHTML=Math.round(averageScore);
+		graphResults();
+
+		function graphResults(){
+		var results={
+			y : [score1, score2, score3, score4, score5],
+			x : ['1', '2', '3', '4', '5'],
+			type : 'bar',
+			marker :{
+				color : "#00ff80"
+			}
+		};
+		var layout={
+			title : "User Results Graphed:",
+			xaxis : {title: "Result"},
+			yaxis : {title: "Amount of users with that Result"}
+		};
+
+		var data=[results];
+		Plotly.newPlot("resultsGraph", data, layout);
+	};
+	});
 </script>
 
 <!----------------------Get and Graph the user's Result-------------------------------------->
-<script type="text/javascript">
-	var scoreList=[];
-	var score1=0
-	var score2=0
-	var score3=0
-	var score4=0
-	var score5=0
-
-	var scores=firebase.database().ref("/QuizScore/");
-	scores.on("child_added", function(data, prevChildKey){
-		var dataPoint=data.val();
-
-		if(dataPoint.Score==1){
-			score1+=1
-		}
-		if(dataPoint.Score==2){
-			score2+=1
-		}
-		if(dataPoint.Score==3){
-			score3+=1
-		}
-		if(dataPoint.Score==4){
-			score4+=1
-		}
-		if(dataPoint.Score==5){
-			score5+=1
-		}
-		scoreList.push(parseInt(dataPoint.Score));
-		var displayScore=scoreList[(scoreList.length-1)];
-		document.getElementById("result").innerHTML=displayScore;	
-		var numberUsers=scoreList.length;
-		document.getElementById("userTotal").innerHTML=numberUsers;
-		function sumOfScore(total, num) {
-  			return total + num;
-			}
-		var averageScore=(scoreList.reduce(sumOfScore)/scoreList.length);
-		document.getElementById("averageResult").innerHTML=Math.round(averageScore);
-		graphResults();
-	});
-
+<!-- <script type="text/javascript">
 	function graphResults(){
 		//alert(score1);
 		var results={
@@ -187,4 +209,4 @@
 		var data=[results];
 		Plotly.newPlot("resultsGraph", data, layout);
 	};
-</script>
+</script> -->

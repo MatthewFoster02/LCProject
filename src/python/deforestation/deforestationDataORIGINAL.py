@@ -1,9 +1,11 @@
 # LCCS Climate Change Project
-# Examination Number: 153686
+# Examination Number: 000000
 
-from firebase import firebase #Import firebase.
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import firestore #Import firebase.
 
-deforestData=open('ForestPercentageData.csv', 'r') #Open deforestation excel file.
+deforestData=open('src/data/ForestPercentageData.csv', 'r') #Open deforestation excel file.
 deforestationData=deforestData.read() #Extract the data from the file.
 deforestData.close() #Close the file!
 
@@ -29,17 +31,22 @@ for i in(deforestationData): #In each index,
             
 #print(worldValues)
 
-connection=firebase.FirebaseApplication('https://lccsproject-climate-change.firebaseio.com/', None) #Connect to firebase.
+cred = credentials.Certificate('C:/Users/mattf/OneDrive/Documents/ComputerScience2020LeavingCertProject/lccsproject-climate-change-firebase-adminsdk-gpt1q-4de2329405.json')
+
+app = firebase_admin.initialize_app(cred)
+
+db = firestore.client() #Connect to the Firebase database.
 
 year=1990 # Set Year value.
 counter=0 #Set Index counter value.
 while(year<=2016): #Whilst year value less than 2016, final year. Run code.
     forestPercentValue={ #The variable we are going to post to firebase.
         'Year' : year, #Year value is equal to the variable 'year'.
-        'Forest Percent' : worldValues[counter] #Deforestation value to post is the value in the list 'worldValues', at the index of the counter.
+        'ForestPercent' : worldValues[counter] #Deforestation value to post is the value in the list 'worldValues', at the index of the counter.
         }
     
-    connection.post('/Deforestation/', forestPercentValue) #Send the data to firebase.
+    doc_ref = db.collection(u'Deforestation').document(str(year))
+    doc_ref.set(forestPercentValue) #Send the data to firebase.
     counter+=1 #Increase counter 1.
     year+=1 #Increase year variable by 1.
 

@@ -130,72 +130,72 @@
 
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
-<script src="https://www.gstatic.com/firebasejs/7.8.1/firebase.js"></script>
+<script type="module">
+	import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
+    import { getFirestore, getDocs, collection } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
 
-<script src="https://www.gstatic.com/firebasejs/7.8.1/firebase-analytics.js"></script>
-
-<script>
-  
-  var firebaseConfig = {
-    apiKey: "AIzaSyCjcGYzLeGeiHABRhrr9JTNzZUiPoQW9Bk",
-    authDomain: "lccsproject-climate-change.firebaseapp.com",
-    databaseURL: "https://lccsproject-climate-change.firebaseio.com",
-    projectId: "lccsproject-climate-change",
-    storageBucket: "lccsproject-climate-change.appspot.com",
-    messagingSenderId: "1057025490978",
-    appId: "1:1057025490978:web:cb8f4b6b55c9ce466c8a7b",
-    measurementId: "G-FE4P99JXPJ"
-  };
-  
-  firebase.initializeApp(firebaseConfig);
-  firebase.analytics();
-</script>
-
-<!--------------Function to Graph the relevant Data from Firebase---------------------------->
-
-<script type="text/javascript">
-	var seaLevelsList=[];
-	var years=[];
-
-	var seaLevelsData=firebase.database().ref("/SeaLevels/");
-	seaLevelsData.on("child_added", function(data, prevChildKey){
-		var dataPoint=data.val();
-		seaLevelsList.push(parseFloat(dataPoint.SeaLevel));
-		graphData();
-	});
-	var yearsValue=firebase.database().ref("/SeaLevels/");
-	yearsValue.on("child_added", function(data, prevChildKey){
-		var dataPoint=data.val();
-		years.push(parseFloat(dataPoint.Year));
-	});
-
-	function graphData(){
-		var seaLevels={
-			y : seaLevelsList,
-			x : years,
-			name : "Global Sea Level",
-			mode : "lines+markers",
-			line:{
-				color : "#00ffff"
-			}
-		};
-		var layout={
-			title : "Increase in Global Sea Levels:",
-			xaxis : {title: "Year"},
-			yaxis : {title: "Rise in Sea Level since 1920"}
-		};
-
-		var data=[seaLevels];
-		Plotly.newPlot("seaLevelsGraph", data, layout);
+	// TODO: Replace the following with your app's Firebase project configuration
+	// See: https://firebase.google.com/docs/web/learn-more#config-object
+	const firebaseConfig = {
+		apiKey: "AIzaSyCjcGYzLeGeiHABRhrr9JTNzZUiPoQW9Bk",
+		authDomain: "lccsproject-climate-change.firebaseapp.com",
+		databaseURL: "https://lccsproject-climate-change.firebaseio.com",
+		projectId: "lccsproject-climate-change",
+		storageBucket: "lccsproject-climate-change.appspot.com",
+		messagingSenderId: "1057025490978",
+		appId: "1:1057025490978:web:cb8f4b6b55c9ce466c8a7b",
+		measurementId: "G-FE4P99JXPJ"
 	};
 
-	var analysis=firebase.database().ref("/AnalysisOfGraph/");
-	analysis.on("child_added", function(data, prevChildKey){
-		var dataPoint=data.val();
-		var averageRateOfChange=parseFloat(dataPoint.AverageSeaLevelsChange);
-		document.getElementById("averageRateOfChange").innerHTML=averageRateOfChange;
+	// Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    // Initialize Cloud Firestore and get a reference to the service
+    const db = getFirestore(app);
 
-		var greatestChange=parseFloat(dataPoint.MaxSeaLevelsValue);
-		document.getElementById("greatestChange").innerHTML=greatestChange;
+	// ADD PLOT HERE
+	getDocs(collection(db, "SeaLevels")).then(docSnap => 
+	{
+		let seaLevels = [];
+		let years = [];
+		docSnap.forEach((doc) => 
+		{
+			let dataPoint = doc.data();
+			seaLevels.push(parseFloat(dataPoint.SeaLevel));
+			years.push(parseInt(dataPoint.Year));
+			graphData();
+		});
+
+		function graphData(){
+			let seaData={
+				y : seaLevels,
+				x : years,
+				name : "Global Sea Level",
+				mode : "lines+markers",
+				line:{
+					color : "#00ffff"
+				}
+			};
+			let layout={
+				title : "Increase in Global Sea Levels:",
+				xaxis : {title: "Year"},
+				yaxis : {title: "Rise in Sea Level since 1920"}
+			};
+
+			let data=[seaData];
+			Plotly.newPlot("seaLevelsGraph", data, layout);
+		};
+	});
+
+	getDocs(collection(db, "AnalysisOfGraph")).then(docSnap => 
+	{
+		docSnap.forEach((doc) => 
+		{
+			let dataPoint = doc.data();
+			let averageRateOfChange=parseFloat(dataPoint.AverageSeaLevelsChange);
+			document.getElementById("averageRateOfChange").innerHTML=averageRateOfChange;
+
+			let greatestChange=parseFloat(dataPoint.MaxSeaLevelsValue);
+			document.getElementById("greatestChange").innerHTML=greatestChange;
+		});		
 	});
 </script>

@@ -222,7 +222,7 @@
  		<div class="col-md-1"></div>
  		<div class="col-md-10">
  			<div class="btnClass">
- 				<button onclick="saveAnswers();" class="btnStyle" title="Calculate your Results">Calculate your Results!</button>
+ 				<button id="saveAnswers" class="btnStyle" title="Calculate your Results">Calculate your Results!</button>
  			</div>
  		</div>
  		<div class="col-md-1"></div>
@@ -232,7 +232,7 @@
  		<div class="col-md-1"></div>
  		<div class="col-md-10">
  			<div class="btnClass">
- 				<button onclick="window.location.href='Results.html'" class="btnStyle" title="See your Results">See your Results!</button>
+ 				<button onclick="window.location.href='Results.html'" class="btnStyle" title="See your Results">See other users' Results!</button>
  			</div>
  		</div>
  		<div class="col-md-1"></div>
@@ -260,30 +260,32 @@
 </script>
 
 <!----------------------------Connection to firebase----------------------------------------->
-<script src="https://www.gstatic.com/firebasejs/7.8.1/firebase.js"></script>
+<script type="module">
+	import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
+    import { getFirestore, addDoc, collection  } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
 
-<script src="https://www.gstatic.com/firebasejs/7.8.1/firebase-analytics.js"></script>
+	// TODO: Replace the following with your app's Firebase project configuration
+	// See: https://firebase.google.com/docs/web/learn-more#config-object
+	const firebaseConfig = {
+		apiKey: "AIzaSyCjcGYzLeGeiHABRhrr9JTNzZUiPoQW9Bk",
+		authDomain: "lccsproject-climate-change.firebaseapp.com",
+		databaseURL: "https://lccsproject-climate-change.firebaseio.com",
+		projectId: "lccsproject-climate-change",
+		storageBucket: "lccsproject-climate-change.appspot.com",
+		messagingSenderId: "1057025490978",
+		appId: "1:1057025490978:web:cb8f4b6b55c9ce466c8a7b",
+		measurementId: "G-FE4P99JXPJ"
+	};
 
-<script>
-  
-  var firebaseConfig = {
-    apiKey: "AIzaSyCjcGYzLeGeiHABRhrr9JTNzZUiPoQW9Bk",
-    authDomain: "lccsproject-climate-change.firebaseapp.com",
-    databaseURL: "https://lccsproject-climate-change.firebaseio.com",
-    projectId: "lccsproject-climate-change",
-    storageBucket: "lccsproject-climate-change.appspot.com",
-    messagingSenderId: "1057025490978",
-    appId: "1:1057025490978:web:cb8f4b6b55c9ce466c8a7b",
-    measurementId: "G-FE4P99JXPJ"
-  };
-  
-  firebase.initializeApp(firebaseConfig);
-  firebase.analytics();
-</script>
+	// Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    // Initialize Cloud Firestore and get a reference to the service
+    const db = getFirestore(app);
 
-<!---------------------JavaScript to get and send Results to firebase------------------------>
-<script type="text/javascript">
-	function saveAnswers(){
+	const sAnswers = document.getElementById('saveAnswers');
+
+	sAnswers.addEventListener('click', () =>
+	{
 		var score=0;
 		var answer1=document.getElementsByName("answers1");
 		if(answer1[0].checked){
@@ -305,13 +307,15 @@
 		if(answer5[0].checked){
 			score+=1;
 		}
-		var connection=firebase.database().ref();
-		var table=connection.child("/QuizScore");
-		var sendData=table.push();
-		sendData.set({
-			Score : score
-		}
-		);
-		alert("Your results have been calculated!!");
-	}
+		addDoc(collection(db, "QuizResults"), {
+			Score: 10
+		});
+		alert("Your score is: " + score + "!");
+	});
+</script>
+
+<!---------------------JavaScript to get and send Results to firebase------------------------>
+<script type="text/javascript">
+	
+	
 </script>
